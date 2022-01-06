@@ -13,7 +13,7 @@ export default {
 
   methods: {
     buttonClick() {
-      this.$emit('custom-click')
+      this.$emit('click')
     }
   }
 }

@@ -48,7 +48,9 @@
         <div class="my-10 sm:mt-0 flex flex-col justify-center text-center">
           <button
             class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-          >No hago nada</button>
+          >
+            No hago nada
+          </button>
 
           <div class="flex flex-row my-5">
             <label class="w-full" for="convertValue">
@@ -63,20 +65,47 @@
           <span class="text-xl"></span>
         </div>
       </div>
+
+      <h3 class="text-xl my-10">Best Exchange Rates</h3>
+      <table>
+        <tr
+          v-for="m in markets"
+          :key="`${m.exchangeId}-${m.priceUsd}`"
+          class="border-b"
+        >
+          <td>
+            <b> {{ m.exchangeId }}</b>
+          </td>
+          <td>{{ m.priceUsd | dollar }}</td>
+          <td>{{ m.baseSymbol }} / {{ m.quoteSymbol }}</td>
+          <td>
+            <px-button v-if="!m.url" @click="getWebsite(m)"
+              ><slot>Get Link</slot></px-button
+            >
+            <a v-else class="hover:underline text-blue-600" target="_blanck">{{
+              m.url
+            }}</a>
+          </td>
+        </tr>
+      </table>
     </template>
   </div>
 </template>
 
 <script>
+import PxButton from '@/components/PxButton'
 import api from '@/api'
 
 export default {
   name: 'CoinDetail',
 
+  components: { PxButton },
+
   data() {
     return {
       asset: {},
-      history: []
+      history: [],
+      markets: []
     }
   },
 
@@ -105,15 +134,24 @@ export default {
   },
 
   methods: {
+    getWebsite(exchange) {
+      return api.getExchange(exchange.exchangeId).then(res => {
+        this.$set(exchange, 'url', res.exchangeUrl)
+      })
+    },
+
     getCoin() {
       const id = this.$route.params.id
 
-      Promise.all([api.getAsset(id), api.getAssetHistory(id)]).then(
-        ([asset, history]) => {
-          this.asset = asset
-          this.history = history
-        }
-      )
+      Promise.all([
+        api.getAsset(id),
+        api.getAssetHistory(id),
+        api.getMarkets(id)
+      ]).then(([asset, history, markets]) => {
+        this.asset = asset
+        this.history = history
+        this.markets = markets
+      })
     }
   }
 }
@@ -125,4 +163,3 @@ td {
   text-align: center;
 }
 </style>
-
