@@ -117,7 +117,7 @@ export default {
       this.$router.push({ name: 'coin-detail', params: { id } })
     },
 
-    changeSortOrder () {
+    changeSortOrder() {
       this.sortOrder = this.sortOrder === 1 ? -1 : 1
     }
   }

@@ -3,11 +3,11 @@
     <nav>
       <nav class="flex items-center justify-between flex-wrap bg-blue-800 p-6">
         <div class="flex items-center flex-shrink-0 text-white mr-6">
-          <px-icon class="mr-2" />
+          <px-icon class="mr-5" />
           <router-link
             :to="{ name: 'home' }"
             class="font-semibold text-xl tracking-tight"
-            >Cryptocurrencies</router-link
+            >Crypto Info</router-link
           >
         </div>
         <div
