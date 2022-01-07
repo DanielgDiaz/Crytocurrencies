@@ -3,15 +3,18 @@
     <px-header />
 
     <router-view class="container px-5 sm:px-20 py-20 flex justify-center" />
+
+    <ci-footer />
   </main>
 </template>
 
 <script>
 import PxHeader from '@/components/PxHeader'
+import CiFooter from '@/components/CiFooter'
 
 export default {
   name: 'app',
-  components: { PxHeader }
+  components: { PxHeader, CiFooter }
 }
 </script>
 
